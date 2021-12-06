@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'answer.dart';
+import 'quiz.dart';
+import 'result.dart';
 
 // void main() {
 //     runApp(
@@ -13,7 +15,6 @@ import 'answer.dart';
 void main() => runApp(DemoApp());
 
 class DemoApp extends StatefulWidget {
-  var s = _DemoAppState();
   @override
   State<StatefulWidget> createState() {
     return _DemoAppState();
@@ -22,6 +23,21 @@ class DemoApp extends StatefulWidget {
 
 class _DemoAppState extends State<DemoApp> {
   var _questionIndex = 0;
+  final _questions = [
+    {
+      "question": "what's your favourite color?",
+      "answer": [{"blue", "black", "red"}],
+    },
+    {
+      "question": "What's your favourite animal?",
+      "answer": ["lion", "tiger", "wolf"],
+    },
+    {
+      "question": "What's your favourite place?",
+      "answer": ["Delhi", "Mumbai", "Kolkata"],
+    }
+  ];
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -39,38 +55,15 @@ class _DemoAppState extends State<DemoApp> {
   }
 
   _returnBody() {
-    const questions = [
-      {
-        "question": "what's your favourite color?",
-        "answer": ["blue", "black", "red"],
-      },
-      {
-        "question": "What's your favourite animal?",
-        "answer": ["lion", "tiger", "wolf"],
-      },
-      {
-        "question": "What's your favourite place?",
-        "answer": ["Delhi", "Mumbai", "Kolkata"],
-      }
-    ];
-    return Column(
-      children: [
-        Questions(
-          questions[_questionIndex]['question'].toString(),
-        ),
-        // spread operator is added to make the belowlist a part of the current list <children(ln 57)>
-        ...(questions[_questionIndex]['answer'] as List<String>).map((answer) {
-            return  Answers(
-          _printmsg, answer
-        );
-         })
-          .toList(),
-        // ElevatedButton(onPressed: printmsg,
-        // child: Text('yep'),
-        // ),
-        // ),
-      ],
-    );
+    return _questionIndex < _questions.length
+        ? Quiz(
+          printmsg: _printmsg,
+          questionIndex: _questionIndex,
+          questions: _questions,
+        )
+        : Result(
+            displayMsg: 'Questions Completed',
+          );
   }
 
   _printmsg() {

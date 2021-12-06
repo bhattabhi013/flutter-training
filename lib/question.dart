@@ -9,12 +9,12 @@ class Questions extends StatelessWidget {
     return Container(
       width: double.infinity,
       child: Text(
-      questionText, 
-      style: TextStyle(
-        fontSize: 18,
+        questionText,
+        style: TextStyle(
+          fontSize: 18,
         ),
         textAlign: TextAlign.center,
-      ), 
+      ),
     );
   }
 }
