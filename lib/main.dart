@@ -1,8 +1,5 @@
-import 'package:first_app/question.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import 'answer.dart';
 import 'quiz.dart';
 import 'result.dart';
 
@@ -23,18 +20,34 @@ class DemoApp extends StatefulWidget {
 
 class _DemoAppState extends State<DemoApp> {
   var _questionIndex = 0;
+  var _totalScore = 0;
   final _questions = [
     {
       "question": "what's your favourite color?",
-      "answer": [{"blue", "black", "red"}],
+      "answer": [
+        {"text": "blue", "score": 3},
+        {"text": "black", "score": 10},
+        {"text": "red", "score": 5},
+        {"text": "white", "score": 1}
+      ]
     },
     {
       "question": "What's your favourite animal?",
-      "answer": ["lion", "tiger", "wolf"],
+      "answer": [
+        {"text": "lion", "score": 10},
+        {"text": "tiger", "score": 3},
+        {"text": "wolf", "score": 5},
+        {"text": "panda", "score": 1}
+      ],
     },
     {
       "question": "What's your favourite place?",
-      "answer": ["Delhi", "Mumbai", "Kolkata"],
+      "answer": [
+        {"text": "Delhi", "score": 10},
+        {"text": "Kolkata", "score": 3},
+        {"text": "Mumbai", "score": 5},
+        {"text": "Chennai", "score": 1}
+      ],
     }
   ];
 
@@ -48,6 +61,13 @@ class _DemoAppState extends State<DemoApp> {
     );
   }
 
+  _resetQuiz() {
+    setState(() {
+      _questionIndex = 0;
+      _totalScore = 0;
+    });
+  }
+
   _returnHeader() {
     return AppBar(
       title: Text('Demo App'),
@@ -57,18 +77,21 @@ class _DemoAppState extends State<DemoApp> {
   _returnBody() {
     return _questionIndex < _questions.length
         ? Quiz(
-          printmsg: _printmsg,
-          questionIndex: _questionIndex,
-          questions: _questions,
-        )
+            printmsg: _printmsg,
+            questionIndex: _questionIndex,
+            questions: _questions,
+          )
         : Result(
-            displayMsg: 'Questions Completed',
+          displayMsg: 'Questions Completed', 
+          totalScore: _totalScore, 
+          resetQuiz: _resetQuiz,
           );
   }
 
-  _printmsg() {
+  _printmsg(int score) {
     setState(() {
       print('buttonpressed');
+      _totalScore += score;
       _questionIndex = _questionIndex + 1;
       print(_questionIndex);
     });

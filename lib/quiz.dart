@@ -6,7 +6,7 @@ import 'question.dart';
 class Quiz extends StatelessWidget {
   final int questionIndex;
   final  questions;
-  final VoidCallback printmsg;
+  final Function printmsg;
 
   Quiz({required this.questionIndex, required this.questions, required this.printmsg});
 
@@ -18,14 +18,11 @@ class Quiz extends StatelessWidget {
                 (questions[questionIndex]['question'] as String),
               ),
               // spread operator is added to make the belowlist a part of the current list <children(ln 57)>
-              ...(questions[questionIndex]['answer'] as List<String>)
+              ...(questions[questionIndex]['answer'] as List<Map<String, Object>>)
                   .map((answer) {
-                return Answers(printmsg, answer);
+                return Answers(() => printmsg(answer['score']), answer['text'].toString());
               }).toList(),
-              // ElevatedButton(onPressed: printmsg,
-              // child: Text('yep'),
-              // ),
-              // ),
+              // ElevatedButton(onPressed: () => print("hi"), child: Text('press'))
             ],
           );
   }
